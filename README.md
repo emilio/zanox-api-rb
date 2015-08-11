@@ -1,6 +1,16 @@
 # Zanox API Client
-
 This gem wraps a [savon](http://www.savonrb.com/) client to provide easy access to the Zanox API.
+
+# Installation
+```
+$ gem install zanox_api
+```
+
+Or, in your `Gemfile`:
+
+```
+gem 'zanox_api', '~> 0.1.0'
+```
 
 ## Example Usage
 ```ruby
