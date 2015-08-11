@@ -1,4 +1,4 @@
-# Zanox API Client
+# Zanox API Client [![Build Status](https://travis-ci.org/ecoal95/zanox-api-rb.svg?branch=master)](https://travis-ci.org/ecoal95/zanox-api-rb)
 This gem wraps a [savon](http://www.savonrb.com/) client to provide easy access to the Zanox API.
 
 # Installation
