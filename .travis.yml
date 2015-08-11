@@ -6,4 +6,4 @@ rvm:
   - 2.1.2
 script:
   - gem build zanox_api.gemspec
-  - bundle exec rake test
+  - rake test
