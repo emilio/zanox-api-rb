@@ -9,7 +9,7 @@ $ gem install zanox_api
 Or, in your `Gemfile`:
 
 ```
-gem 'zanox_api', '~> 0.1.0'
+gem 'zanox_api', '~> 0.2.0'
 ```
 
 ## Example Usage
@@ -22,8 +22,12 @@ require 'zanox_api'
 #  - ConnectClient
 client = Zanox::API::PublisherClient.new(connect_id: 'XXX', secret_key: 'xxx')
 
-puts client.get_sales.inspect
+# To use methods which require authentication you must use the "authenticated_" prefix
+puts client.authenticated_get_sales(date: Date.today).inspect
+
+# You can use just the method name for methods which doesn't require it
+puts client.search_programs.inspect
 
 # Parameters are passed to the soap message
-puts client.get_sale(id: "xx").inspect
+puts client.authenticated_get_sale(id: "xx").inspect
 ```

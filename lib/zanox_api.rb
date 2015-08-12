@@ -55,7 +55,7 @@ module Zanox
         @service_name = service_name
         @connect_id = options[:connect_id]
         @secret_key = options[:secret_key]
-        @base_api_url = options[:api_url] || 'http://api.zanox.com/wsdl/2011-03-01'
+        @base_api_url = options[:api_url] || 'https://api.zanox.com/wsdl/2011-03-01'
         @normalize_responses = options[:normalize_responses]
 
         @savon_client = Savon.client({
@@ -63,16 +63,23 @@ module Zanox
                                        log: options[:log],
                                        log_level: options[:log_level],
                                        logger: options[:logger],
-                                       pretty_print_xml: options[:pretty_print_html],
+                                       pretty_print_xml: options[:pretty_print_xml],
                                      })
       end
 
       def method_missing(name, *args, &block)
-        params = Zanox::API.params_for_method(@service_name, name.to_s.gsub('_', '').downcase, @secret_key)
-        params.merge!(connect_id: @connect_id, date: Date.today.to_s)
+        name = name.to_s
+        params = if name.start_with?('authenticated_')
+          name = name.gsub(/^authenticated_/, '')
+          Zanox::API.params_for_method(@service_name, name.gsub('_', '').downcase, @secret_key)
+        else
+          {}
+        end
+
+        params.merge!(connect_id: @connect_id)
         params.merge!(args[0] || {})
         response = @savon_client.call(name.to_sym, message: params)
-        contents = response.body[(name.to_s + '_response').to_sym]
+        contents = response.body[(name + '_response').to_sym]
         if @normalize_responses
           Zanox::API.normalize_response(contents)
         else
@@ -89,6 +96,7 @@ module Zanox
 
     class DataClient < Client
       def initialize(options = {})
+        options[:api_url] ||= 'https://data.zanox.com/wsdl/2011-05-01'
         super('dataservice', options)
       end
     end

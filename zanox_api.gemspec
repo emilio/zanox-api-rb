@@ -2,7 +2,7 @@
 
 Gem::Specification.new do |s|
   s.name = 'zanox_api'
-  s.version = '0.1.1'
+  s.version = '0.2.0'
   s.summary = 'Zanox API client'
   s.authors = ['Emilio Cobos Álvarez']
   s.date = '2015-08-11'
