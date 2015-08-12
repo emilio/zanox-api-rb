@@ -30,13 +30,17 @@ module Zanox
     def self.normalize_response(response)
       # Convert items to array
       if response.has_key?(:items)
-        items_key = response.keys.select { |k| k.to_s.end_with?('_items') }.first
-        response = response[items_key]
+        if response[:items].to_i == 0
+          response = []
+        else
+          items_key = response.keys.select { |k| k.to_s.end_with?('_items') }.first
+          response = response[items_key]
 
-        # converts xxx_items to xxx_item
-        item_key = items_key.to_s[0..-2].to_sym
+          # converts xxx_items to xxx_item
+          item_key = items_key.to_s[0..-2].to_sym
 
-        response = response[item_key]
+          response = response[item_key]
+        end
       end
 
       response
