@@ -34,7 +34,7 @@ module Zanox
         if items == 0
           response = []
         else
-          items_key = response.keys.select { |k| k.to_s.end_with?('_items') }.first
+          items_key = response.keys.find { |k| k.to_s.end_with?('_items') }
           response = response[items_key]
 
           # converts xxx_items to xxx_item
@@ -76,14 +76,14 @@ module Zanox
                                      })
       end
 
-      def method_missing(name, *args, &block)
+      def method_missing(name, *args, &_block)
         name = name.to_s
         params = if name.start_with?('authenticated_')
-          name = name.gsub(/^authenticated_/, '')
-          Zanox::API.params_for_method(@service_name, name.gsub('_', '').downcase, @secret_key)
-        else
-          {}
-        end
+                   name = name.gsub(/^authenticated_/, '')
+                   Zanox::API.params_for_method(@service_name, name.gsub('_', '').downcase, @secret_key)
+                 else
+                   {}
+                 end
 
         params.merge!(connect_id: @connect_id)
         params.merge!(args[0] || {})
